@@ -1,0 +1,181 @@
+# Byte-compiled / optimized / DLL files
+trash/
+recom_system/app/migrations
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+.Pipfile.lock
+
+# poetry
+poetry.lock
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+.dmypy.sqlite3
+
+# Pyre type checker
+.pyre/
+
+# Pylint
+.pylint.d/
+
+# Emacs backup files
+*~
+\#*\#
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+.sublime-project
+.sublime-workspace
+
+# TextMate
+*.tmproj
+*.tmproject
+
+# Eclipse
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# NetBeans
+/nbproject/private/
+/nbproject/Makefile-*.mk
+/nbproject/Package-*.bash
+/nbproject/configurations.xml
+/nbproject/Package-*.xml
+
+# IntelliJ IDEA
+.idea/
+
+# BlueJ
+.bluej
+
+# Komodo IDE
+.komodoproject
+
+# Metacello
+# metadata
+
+# ErlyBird
+.erlware/
+
+# Aptana Studio
+/.metadata
+/.log
+
+# Nano
+.nanorc
+
+# CoffeeScript
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+
+# Yarn
+yarn-error.log
+.pnp/
+.pnp.js
+
+# Parcel
+.cache/
+dist/
+
+# Meteor
+.meteor/local/
+/.meteor/local
+/.meteor/local/*

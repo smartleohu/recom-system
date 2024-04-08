@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: recom_system:0.1.1
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - DJANGO_SETTINGS_MODULE=recom_system.settings
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver_with_celery 0.0.0.0:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://rabbitmq:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=hur
+      - POSTGRES_PASSWORD=PASSWORD
+      - POSTGRES_DB=recom_data3
+
+  rabbitmq:
+    image: rabbitmq:3.8
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  elasticsearch_data:
