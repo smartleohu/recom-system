@@ -60,11 +60,14 @@ quality production chain.
 
 2. **Clone the Repository**:
    ```bash
-   git clone https://github.com/smartleohu/recom-system/recom-system.git
+   git clone https://github.com/smartleohu/recom-system.git
 3. Install Dependencies:
    ```bash 
    pip install -r requirements.txt
-4. Apply Database Migrations:
+4. Pass all unit tests:
+   ```bash 
+   pytest
+5. Apply Database Migrations:
    ```bash
    python manage.py makemigrations
    python manage.py migrate
