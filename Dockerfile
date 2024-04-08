@@ -36,12 +36,6 @@ RUN service postgresql start \
     && su - postgres -c "createdb -O hur recom_data3" \
     && service postgresql stop
 
-# Configure RabbitMQ
-# RUN rabbitmq-plugins enable rabbitmq_management
-# RUN rabbitmqctl add_user myuser mypassword
-# RUN rabbitmqctl set_user_tags myuser administrator
-# RUN rabbitmqctl set_permissions -p / myuser ".*" ".*" ".*"
-
 # Start RabbitMQ service
 RUN service rabbitmq-server start
 
