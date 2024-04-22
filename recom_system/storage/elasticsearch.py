@@ -1,7 +1,5 @@
 from functools import lru_cache
 
-from elasticsearch import AuthenticationException
-
 from recom_system.settings import ELASTICSEARCH_CONNECTION, ES_INDEX_PREFIX
 
 

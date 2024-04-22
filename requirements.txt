@@ -1,9 +1,13 @@
 celery~=5.3.6
+daphne~=4.1.2
 django~=5.0.3
+django-cors-headers~=4.3.1
 django_extensions~=3.2.3
 djangorestframework~=3.15.1
 drf-yasg~=1.21.7
 elasticsearch~=8.13.0
+flake8~=7.0.0
+gunicorn~=22.0.0
 psycopg==3.1.18
 psycopg2-binary==2.9.9
 psutil~=5.9.8

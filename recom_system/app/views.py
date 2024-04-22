@@ -7,6 +7,7 @@ from elasticsearch import NotFoundError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from common.logging_util import log_event
 from recom_system.app.tasks import calculate_similar_anomalies_async
 from recom_system.storage.elasticsearch import ElasticSearchStorage
 from recom_system.swagger_schemas.calculate_schemas import \
@@ -71,13 +72,17 @@ def fetch_similar_anomalies(request):
                 search_results = es_storage.get_similarities_by_res_id(
                     task_result_id, user_name=user_name
                 )
-                print(search_results)
+                log_event('fetch_similar_anomalies',
+                          {'search_results': search_results})
 
                 # Pass the search_result dictionary to the template
                 return Response({'search_results': search_results}, status=200)
             except NotFoundError:
-                print(f'{task_result_id} by {user_name} reties in '
-                      f'{retry_interval}s [{retry_count}/{max_retry_nb}]')
+                log_event(
+                    'fetch_similar_anomalies',
+                    {'Retry': f'{task_result_id} by {user_name} reties in '
+                              f'{retry_interval}s '
+                              f'[{retry_count}/{max_retry_nb}]'})
                 time.sleep(retry_interval)
                 retry_count += 1
         return Response({
