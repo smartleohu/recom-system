@@ -1,6 +1,7 @@
 import logging
 import time
 
+from celery.result import AsyncResult
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from elasticsearch import NotFoundError
@@ -69,6 +70,8 @@ def fetch_similar_anomalies(request):
 
                 # Use Celery task result id as the index name for search
                 # Perform search query in Elasticsearch
+                while AsyncResult(task_result_id).status != 'SUCCESS':
+                    time.sleep(retry_interval / 2)
                 search_results = es_storage.get_similarities_by_res_id(
                     task_result_id, user_name=user_name
                 )
