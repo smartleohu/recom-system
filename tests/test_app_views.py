@@ -24,14 +24,6 @@ def test_calculate_similar_anomalies(mock_delay, sample_request):
                              'user_name': 'test_user'}
 
 
-from unittest.mock import MagicMock, patch
-
-import pytest
-from celery.result import AsyncResult
-
-from recom_system.app.views import fetch_similar_anomalies
-
-
 @pytest.mark.django_db
 @patch('recom_system.app.views.AsyncResult')
 @patch('recom_system.app.views.ElasticSearchStorage.get_instance')
