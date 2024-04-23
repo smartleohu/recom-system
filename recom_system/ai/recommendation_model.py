@@ -1,5 +1,8 @@
+import logging
 import random
 import time
+
+logger = logging.getLogger(__name__)
 
 
 def find_similar_anomalies(anomaly_id):
@@ -12,8 +15,8 @@ def find_similar_anomalies(anomaly_id):
         random.uniform(0.8, 0.9),
         random.uniform(0.7, 0.8),
     ], 2)
-    print(f'process anomaly_id in question: {anomaly_id} waiting for '
-          f'{proc_time}s...')
+    logger.info(f'process anomaly_id in question: {anomaly_id} waiting for '
+                f'{proc_time}s...')
     time.sleep(proc_time)
     similar_anomalies = [{
         'anomaly_id': a_id,

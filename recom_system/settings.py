@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_extensions',
     'rest_framework',
     'drf_yasg',
@@ -59,10 +60,18 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.localthread_middleware.PopulateLocalsThreadMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:8000',
 ]
 
 ROOT_URLCONF = 'recom_system.app.urls'
@@ -82,6 +91,8 @@ TEMPLATES = [
         },
     }, ]
 
+WSGI_APPLICATION = 'recom_system.wsgi.application'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -92,6 +103,28 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.'
+                'UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.'
+                'MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.'
+                'CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.'
+                'NumericPasswordValidator',
+    },
+]
 
 LANGUAGE_CODE = 'en-us'
 
@@ -105,18 +138,33 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console_handler': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {"format": "%(asctime)s %(process)d %(thread)d %(message)s"}
+    },
+    "handlers": {
+        "django_file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR + "/logs/django_logs.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 10,
+            "formatter": "verbose"
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose"
         },
     },
-    'loggers': {
-        '': {
-            'level': 'INFO',
-            'handlers': ['console_handler'],
+    "loggers": {
+        "django_default": {
+            "handlers": ["django_file", "console"],
+            "level": "INFO",
+            "propagate": True
         },
-    },
-
+    }
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

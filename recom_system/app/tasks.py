@@ -1,9 +1,13 @@
-from celery import shared_task
+import logging
+
+from celery import current_task, shared_task
 from django.forms.models import model_to_dict
 
 from recom_system.ai.recommendation_model import find_similar_anomalies
 from recom_system.storage.elasticsearch import ElasticSearchStorage
 from recom_system.storage.postgresql import PostgresStorage
+
+logger = logging.getLogger(__name__)
 
 
 def model_to_dict_recursive(instance, fields=None, exclude=None):
@@ -12,7 +16,6 @@ def model_to_dict_recursive(instance, fields=None, exclude=None):
     including related objects.
     """
     data = model_to_dict(instance, fields=fields, exclude=exclude)
-
     for field_name, field_value in data.items():
         if hasattr(field_value, '__dict__'):
             # If the field is a related object
@@ -33,17 +36,16 @@ def model_to_dict_recursive(instance, fields=None, exclude=None):
 @shared_task
 def calculate_similar_anomalies_async(anomaly_id, user_name):
     anomalies = []
+    logger.info(f'Current Task ID: {current_task.request.id}')
     for anomaly_info in find_similar_anomalies(anomaly_id):
-        print(f"_________{PostgresStorage.get_anomaly(anomaly_info['anomaly_id'])}")
-        res = model_to_dict_recursive(PostgresStorage.get_anomaly(
-            anomaly_info['anomaly_id']))
-
-        print(f'*************{res}')
+        anomaly = PostgresStorage.get_anomaly(
+            anomaly_info['anomaly_id'])
+        logger.info(f'get_anomaly: {anomaly}')
+        res = model_to_dict_recursive(anomaly)
+        logger.info(f'model_to_dict_recursive: {res}')
         res.update(anomaly_info)
-        print(f'1*************{anomaly_info}')
-        print(f'2*************{res}')
-
         res['timestamp'] = res['timestamp'].isoformat()
+        logger.info(f'update: {res}')
         anomalies.append(res)
     # Store the similarity result in Elasticsearch
     es_storage = ElasticSearchStorage.get_instance()

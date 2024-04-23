@@ -9,6 +9,9 @@ class UserProfile(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return self.user_name
+
 
 class Anomaly(models.Model):
     anomaly_id = models.CharField(primary_key=True, max_length=50,
@@ -21,6 +24,9 @@ class Anomaly(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return self.description
+
 
 class PowerComponent(models.Model):
     component_id = models.CharField(primary_key=True, max_length=50,
@@ -32,3 +38,6 @@ class PowerComponent(models.Model):
     anomalies = models.ManyToManyField(Anomaly, related_name='components')
 
     objects = models.Manager()
+
+    def __str__(self):
+        return self.name

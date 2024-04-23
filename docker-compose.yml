@@ -14,10 +14,6 @@ services:
       - elasticsearch
     environment:
       - DJANGO_SETTINGS_MODULE=recom_system.settings
-    command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver_with_celery 0.0.0.0:8000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://rabbitmq:15672"]
       interval: 30s
